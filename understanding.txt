@@ -1,0 +1,40 @@
+Entendimento do problema:
+
+Contexto: Alocação de salas no iceb.
+    2 predios
+        36 salas ao total
+
+    16 horarios 
+        3 turmos (manha, tarde, noite)
+    
+    1 Aula possui
+        1 turma (conjunto de alunos)
+        1 professor 
+        x disciplinas 
+        conjunto de dias 
+        1 horario pré definido
+
+    Encontros não alocados
+        - Alocados em uma sala virtual
+
+restrições:
+    - cada sala pode alocar apenas um encontro em um período de tempo
+    - cada encontro somente pode ser alocado a uma sala em cada período de tempo
+
+    - Ociosidade evitar alocar encontros de pequenas demandas em salas grandes (mais da metade)
+    - Desalocação: tentar alocar o máximo de encontros possíveis 
+    - Em pé: evitar alocar encontros maiores em salas menores
+
+instancia original:
+    888 encontros 
+    2 predios 
+        36 salas 
+    16 horarios 
+
+instancia gerada para uso:
+    1000 encontros 
+        valor da demanda entre 10 e 70
+    36 salas   
+        16 horarios 
+
+
