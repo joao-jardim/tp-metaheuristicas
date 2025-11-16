@@ -1,0 +1,6 @@
+instance,Encontros Alocados,Encontros Total,Taxa Alocacao (%),Demanda Alocada,Demanda Total,Taxa Demanda (%),Desperdicio Medio,Runtime(s),MaxRSS(kB),PrefTotal,PrefSatisfeitas,PrefSat(%)
+instance1,974,1000,97.4,39264,40861,96.0916,11.694,0.3587,4816896,0,0,
+instance2,983,1000,98.3,38732,39799,97.319,12.059,0.0259,4816896,0,0,
+instance3,968,1000,96.8,37298,39318,94.8624,12.6477,0.0227,4800512,0,0,
+instance4,979,1000,97.9,39574,40894,96.7721,10.8917,0.0216,4866048,0,0,
+instance5,987,1000,98.7,38180,39018,97.8523,12.1003,0.0224,4898816,0,0,

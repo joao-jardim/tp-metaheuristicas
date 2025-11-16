@@ -1,7 +1,7 @@
 
 CC := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -O2
-INCLUDES := -Isrc -Iinclude -I/usr/include
+INCLUDES := -Isrc -Iinclude -I/opt/homebrew/include
 
 SRCS := $(wildcard src/*.cpp) $(wildcard src/constructive/*.cpp)
 TARGET := bin/app

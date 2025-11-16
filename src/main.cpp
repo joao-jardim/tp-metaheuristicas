@@ -2,9 +2,16 @@
 #include "include/constructive/constructive_heuristic.hpp"
 #include <iostream>
 
-int main() {
+int main(int argc, char** argv) {
     Problem p;
-    p.loadInstance("instance1.json");
+
+    // Permite passar caminho da instância como argumento: ./bin/app path/to/instance.json
+    std::string instancePath = "instance1.json";
+    if (argc > 1) {
+        instancePath = argv[1];
+    }
+
+    p.loadInstance(instancePath);
 
     greedyConstruct(p);
 
