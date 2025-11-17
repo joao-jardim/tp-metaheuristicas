@@ -77,9 +77,18 @@ pip3 install -r plot_requirements.txt
 
 ### Compilar
 
+Ao executar `make` o processo solicitará que você escolha qual heurística construtiva será usada como padrão no binário:
+
+- Digite `1` para a heurística gulosa (padrão)
+- Digite `2` para a heurística parcialmente gulosa (RCL)
+
+Exemplo:
 ```bash
 make clean && make
+# durante a execução, digite 1 ou 2 e pressione Enter
 ```
+
+O `Makefile` definirá macros de compilação que ajustam o comportamento padrão do binário (`DEFAULT_HEUR`, `DEFAULT_ALPHA`, `DEFAULT_SEED`).
 
 Isto gera o binário `bin/app`.
 

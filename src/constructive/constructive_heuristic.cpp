@@ -1,5 +1,7 @@
-
+//"Largest-First Best-Fit"
 #include "include/constructive/constructive_heuristic.hpp"
+#include "include/constructive/partial_greedy.hpp"
+#include <random>
 #include <algorithm>
 #include <iostream>
 #include <climits>
@@ -9,11 +11,11 @@
 #include <fstream>
 
 // Heurística gulosa simples:
-// - Ordena encontros por demanda decrescente (maiores primeiro)
-// - Para cada encontro, tenta alocar em um dos horários permitidos
-//   buscando a menor sala disponível que comporte a demanda e
-//   satisfaça requisitos (laboratório para práticos, projetor, etc.)
-// - Respeita reservas já existentes carregadas na instância
+// Ordena encontros por demanda decrescente (maiores primeiro)
+// Para cada encontro, tenta alocar em um dos horários permitidos
+// buscando a menor sala disponível que comporte a demanda e que
+// satisfaça requisitos (laboratório para práticos, projetor, etc.)
+// Respeita reservas já existentes carregadas na instância
 
 void greedyConstruct(Problem& p) {
 	// Ordena índices de meetings por demanda (desc)
@@ -268,4 +270,6 @@ void greedyConstruct(Problem& p) {
 		std::cout << "Dados exportados para: greedy_stats.csv\n";
 	}
 }
+
+
 
