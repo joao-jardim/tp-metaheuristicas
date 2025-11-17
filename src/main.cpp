@@ -20,9 +20,8 @@ int main(int argc, char** argv) {
 
     std::string instancePath = "instance1.json"; // nome relativo a data/generated_instances/
     std::string heuristicArg;
-    double alpha = 0.0;
-    unsigned int seed = 0;
-
+    double alpha = 1;
+    unsigned int seed = 0;   
 #if DEFAULT_HEUR == 2
     heuristicArg = "partial";
     alpha = DEFAULT_ALPHA;

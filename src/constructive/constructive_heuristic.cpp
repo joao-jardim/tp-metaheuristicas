@@ -92,7 +92,7 @@ void greedyConstruct(Problem& p) {
 				if (!classroom_free(c.id, m.dayOfWeek, sched)) continue;
 				if (m.isPractical && !c.isLab) continue;
 				if (c.capacity < m.demand) continue;  // Sala não cabe: não é candidata
-				int waste = c.capacity - m.demand;
+				int waste = c.capacity - m.demand; 
 				
 				// calcula penalidade e número de preferências violadas
 				int prefPenalty = 0;
@@ -102,15 +102,15 @@ void greedyConstruct(Problem& p) {
 					if (!pf.buildingId.empty()) {
 						try {
 							int bid = std::stoi(pf.buildingId);
-							if (bid != c.buildingId) { prefPenalty += 10000; ++violatedCount; }
+							if (bid != c.buildingId) { prefPenalty += 50; ++violatedCount; }
 						} catch (...) { /* se não for número, não compara */ }
 					}
-					if (pf.floor != -1 && pf.floor != c.floor) { prefPenalty += 10000; ++violatedCount; }
-					if (!pf.board.empty() && pf.board != c.board) { prefPenalty += 10000; ++violatedCount; }
+					if (pf.floor != -1 && pf.floor != c.floor) { prefPenalty += 50; ++violatedCount; }
+					if (!pf.board.empty() && pf.board != c.board) { prefPenalty += 50; ++violatedCount; }
 					// só considera preferência positiva por projetor (se true)
-					if (pf.projector && !c.projector) { prefPenalty += 10000; ++violatedCount; }
+					if (pf.projector && !c.projector) { prefPenalty += 50; ++violatedCount; }
 				}
-				int score = waste + prefPenalty;
+				int score = waste + prefPenalty; 
 				if (score < bestWaste) { 
 					bestWaste = score; 
 					bestClassroom = c.id; 

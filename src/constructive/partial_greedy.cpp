@@ -60,7 +60,7 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
     std::map<std::string, std::vector<int>> scheduleOccupancy;
 
     // penalidade por preferência reduzida para a heurística parcialmente gulosa
-    const int PARTIAL_PREF_PENALTY = 1000; // antes era 10000 no greedy
+    const int PARTIAL_PREF_PENALTY = 15; // ajustado conforme solicitado
 
     std::vector<int> idx(p.meetings.size());
     for (size_t i = 0; i < idx.size(); ++i) idx[i] = static_cast<int>(i);
