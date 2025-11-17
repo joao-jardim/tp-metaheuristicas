@@ -6,11 +6,3 @@ instancia original:
 
     2 predios 
         36 salas 
-
-precisamos saber: 
-    1 Aula
-        Qual turma ?
-        Qual professor
-        Quais disciplinas 
-        Qual conjunto de dias 
-        Quais os horarios pré definidos 

@@ -266,8 +266,9 @@ Verifique se:
 
 ---
 
-## 👤 Autor
+## 👤 Autores
 
+Joao Victor Ramalho de Sousa Pereira Jardim e Maria Eduarda Bessa Teixeira
 Desenvolvido como Trabalho Prático para a disciplina de Metaheurísticas.
 
 ---
@@ -277,8 +278,6 @@ Desenvolvido como Trabalho Prático para a disciplina de Metaheurísticas.
 Projeto acadêmico. Sem licença específica.
 
 ---
-
-## 📞 Suporte
 
 Para dúvidas sobre:
 - **Visualizações:** veja [VISUALIZACOES.md](VISUALIZACOES.md)
