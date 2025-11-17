@@ -29,7 +29,7 @@ def load_stats(csv_file=None):
         csv_file = Path(csv_file)
 
     if not csv_file.exists():
-        print(f"❌ Erro: arquivo '{csv_file}' não encontrado.")
+        print(f"Erro: arquivo '{csv_file}' não encontrado.")
         print("   Execute primeiro o programa C++ para gerar o arquivo.")
         sys.exit(1)
     
@@ -105,7 +105,7 @@ def plot_allocation_overview(df_metrics, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_allocation.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_allocation.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_allocation.png'}")
     plt.close()
 
 
@@ -164,7 +164,7 @@ def plot_metrics(df_metrics, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_metrics.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_metrics.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_metrics.png'}")
     plt.close()
 
 
@@ -221,7 +221,7 @@ def plot_preferences(df_prefs, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_preferences.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_preferences.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_preferences.png'}")
     plt.close()
 
 
@@ -316,7 +316,7 @@ def plot_classroom_occupancy(sections, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_classroom_occupancy.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_classroom_occupancy.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_classroom_occupancy.png'}")
     plt.close()
 
 
@@ -362,7 +362,7 @@ def plot_daily_occupancy(sections, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_daily_occupancy.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_daily_occupancy.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_daily_occupancy.png'}")
     plt.close()
 
 
@@ -399,7 +399,7 @@ def plot_waste_distribution(sections, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_waste_distribution.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_waste_distribution.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_waste_distribution.png'}")
     plt.close()
 
 
@@ -462,7 +462,7 @@ def plot_schedule_heatmap(sections, results_dir):
     
     plt.tight_layout()
     plt.savefig(results_dir / 'greedy_schedule_heatmap.png', dpi=300, bbox_inches='tight')
-    print(f"✅ Gráfico salvo: {results_dir / 'greedy_schedule_heatmap.png'}")
+    print(f"Gráfico salvo: {results_dir / 'greedy_schedule_heatmap.png'}")
     plt.close()
 
 
@@ -488,7 +488,7 @@ def main():
         print("\n✨ Todos os gráficos foram gerados com sucesso!\n")
     except Exception as e:
         import traceback
-        print(f"❌ Erro ao gerar gráficos: {e}")
+        print(f"Erro ao gerar gráficos: {e}")
         traceback.print_exc()
         sys.exit(1)
 

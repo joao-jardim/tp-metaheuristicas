@@ -4,12 +4,12 @@
 
 Este projeto implementa uma **solução para o problema de alocação de salas de aula** usando técnicas de otimização combinatória. A solução inclui:
 
-- 🎯 **Heurística Construtiva Gulosa**: alocação eficiente de encontros em salas disponíveis
-- 📊 **Análise Detalhada**: coleta de estatísticas e métricas de qualidade
-- 📈 **Visualizações**: gráficos comparativos e detalhados de múltiplas instâncias
-- ⚡ **Medição de Performance**: coleta de tempo de execução e uso de memória
+- **Heurística Construtiva Gulosa**: alocação eficiente de encontros em salas disponíveis
+- **Análise Detalhada**: coleta de estatísticas e métricas de qualidade
+- **Visualizações**: gráficos comparativos e detalhados de múltiplas instâncias
+- **Medição de Performance**: coleta de tempo de execução e uso de memória
 
-## 🏗️ Estrutura do Projeto
+## Estrutura do Projeto
 
 tp-metaheuristicas/
 ├── src/                              # Código-fonte C++
@@ -127,7 +127,7 @@ Isto gera PNGs em `results/`:
 
 ---
 
-## 📊 Saídas e Dados
+## Saídas e Dados
 
 ### CSVs Gerados
 
@@ -146,28 +146,6 @@ instance | Encontros Alocados | Taxa Alocacao (%) | Demanda Alocada | ... | Runt
 instance1| 974                | 97.4              | 39264           | ... | 0.0311     | 4800512    | [%]
 instance2| 983                | 98.3              | 38732           | ... | 0.0212     | 5046272    | [%]
 ```
-
-### Gráficos Gerados
-
-**Comparativos:**
-- `compare_allocation_rate.png` — Taxa de alocação por instância
-- `compare_demand_rate.png` — Taxa de demanda atendida
-- `compare_waste_vs_allocation.png` — Desperdício vs eficiência
-- `compare_runtime.png` — Tempo de execução com linha de média
-- `compare_runtime_with_std.png` — Runtime com desvio padrão
-- `compare_runtime_vs_allocation_scatter.png` — Relação runtime × alocação
-- `compare_runtime_boxplot.png` — Distribuição de runtime
-- `compare_memory.png` — Pico de memória por instância
-
-**Detalhados (por instância):**
-- `greedy_allocation.png` — Pizza + barras de alocação
-- `greedy_metrics.png` — Métricas principais em dashboard
-- `greedy_classroom_occupancy.png` — Utilização de salas (top/bottom 10)
-- `greedy_daily_occupancy.png` — Carga por dia da semana
-- `greedy_waste_distribution.png` — Histograma + boxplot de desperdício
-- `greedy_schedule_heatmap.png` — Demanda por dia e horário
-- `greedy_preferences.png` — Satisfação de preferências (se houver)
-
 ---
 
 ## 🔧 Desenvolvimento
@@ -185,101 +163,3 @@ instance2| 983                | 98.3              | 38732           | ... | 0.02
 
 **Automação**
 - `run_and_aggregate.py`: Wrapper que executa todas as instâncias, agrega CSVs e mede performance
-
-### Algoritmo: Greedy Best-Fit
-
-1. Ordena encontros por demanda decrescente
-2. Para cada encontro, tenta alocar na sala que:
-   - Tem capacidade suficiente
-   - Minimiza desperdício (ou respeita preferências com penalidade)
-3. Coleta estatísticas detalhadas por sala, dia e horário
-
-**Penalidade por Preferência:** 10.000 (grande, força respeito quando possível)
-
-### Métricas Coletadas
-
-- **Por encontro**: se foi alocado, sala, desperdício
-- **Por sala**: número de encontros, demanda, ocupação, taxa de utilização
-- **Por dia**: encontros e demanda total
-- **Por dia/horário**: demanda agregada
-- **Global**: taxa de alocação, taxa de demanda, desperdício médio, preferências satisfeitas
-
----
-
-## 📈 Análise de Resultados
-
-Veja **[VISUALIZACOES.md](VISUALIZACOES.md)** para interpretação detalhada dos gráficos e insights por métrica.
-
-### Resumo Executivo (Exemplo)
-
-| Métrica | Valor | Avaliação |
-|---------|-------|-----------|
-| Taxa Alocação | 97.4% | ✅ Excelente |
-| Taxa Demanda | 96.1% | ✅ Excelente |
-| Desperdício Médio | 11.69 vagas | ✅ Baixo |
-| Tempo Médio | ~0.025s | ✅ Muito rápido |
-| Pico de Memória | ~5MB | ✅ Eficiente |
-
----
-
-## 🛠️ Troubleshooting
-
-### Erro: "nlohmann/json.hpp: No such file"
-
-O header JSON single-header já deve estar incluído. Se faltar:
-```bash
-curl -o src/include/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.11.2/json.hpp
-```
-
-### Erro: "ImportError: No module named matplotlib"
-
-Reinstale as dependências Python:
-```bash
-pip3 install --upgrade --force-reinstall matplotlib seaborn pandas
-```
-
-### Gráficos não são gerados
-
-Verifique se:
-1. `data/results/summary_instances.csv` existe (rode `run_and_aggregate.py`)
-2. Python tem permissão de escrita em `results/`
-3. Dependências estão instaladas: `pip3 list | grep -E "matplotlib|pandas|seaborn"`
-
----
-
-## 📚 Referências Técnicas
-
-- **Linguagem de Programação:** C++17
-- **Build System:** Make
-- **JSON Parsing:** nlohmann/json (single-header)
-- **Visualização:** Python 3 + Matplotlib + Seaborn + Pandas
-- **Plataforma Suportada:** macOS (Linux/Windows com ajustes)
-
----
-
-## 📝 Notas
-
-- O arquivo `greedy_stats.csv` é gerado na raiz ou em `data/results/` (conforme configuração)
-- CSVs com sufixo `_<instance>` indicam que o programa processou múltiplas instâncias
-- Gráficos sempre salvam em `results/` para centralizar visualizações
-- Performance é medida com `time.perf_counter()` (Python) e `/usr/bin/time -l` (macOS)
-
----
-
-## 👤 Autores
-
-Joao Victor Ramalho de Sousa Pereira Jardim e Maria Eduarda Bessa Teixeira
-Desenvolvido como Trabalho Prático para a disciplina de Metaheurísticas.
-
----
-
-## 📄 Licença
-
-Projeto acadêmico. Sem licença específica.
-
----
-
-Para dúvidas sobre:
-- **Visualizações:** veja [VISUALIZACOES.md](VISUALIZACOES.md)
-- **Setup macOS:** veja [SETUP_MAC.md](SETUP_MAC.md)
-- **Código C++:** consulte comentários em `src/constructive/constructive_heuristic.cpp`

@@ -4,6 +4,7 @@ Executa o binário para todas as instâncias JSON em data/generated_instances/
 Renomeia o greedy_stats.csv gerado para greedy_stats_<instance>.csv
 E cria summary_instances.csv com métricas chave por instância.
 """
+
 import subprocess
 import shutil
 from pathlib import Path

@@ -23,13 +23,13 @@ OUT_DIR.mkdir(exist_ok=True)
 # Validar arquivo de entrada
 summary_file = CSV_DIR / 'summary_instances.csv'
 if not summary_file.exists():
-    print(f'❌ Arquivo não encontrado: {summary_file}')
+    print(f'Arquivo não encontrado: {summary_file}')
     print('   Rode run_and_aggregate.py primeiro.')
     raise SystemExit(1)
 
 # Carregar dados
 df = pd.read_csv(summary_file)
-print(f'✓ Carregado {len(df)} linhas de {summary_file}')
+print(f'Carregado {len(df)} linhas de {summary_file}')
 
 # Garantir coluna 'heuristic' (fallback para dados antigos)
 if 'heuristic' not in df.columns and 'file' in df.columns:
@@ -42,7 +42,7 @@ for col in numeric_cols:
         df[col] = pd.to_numeric(df[col], errors='coerce')
 
 # Gerar boxplots comparativos
-print('\n📊 Gerando gráficos comparativos...\n')
+print('\nGerando gráficos comparativos...\n')
 
 # 1. Desperdício Médio
 plt.figure(figsize=(8, 6))
@@ -77,4 +77,4 @@ plt.savefig(OUT_DIR / 'compare_runtime_boxplot.png', dpi=150)
 print('✓ Gerado: results/compare_runtime_boxplot.png')
 plt.close()
 
-print('\n✅ Processamento concluído!')
+print('\nProcessamento concluído!')

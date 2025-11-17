@@ -8,7 +8,6 @@
 #include <map>
 #include <fstream>
 
-// Implementação da heurística parcialmente gulosa movida para este arquivo.
 void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
     if (alpha < 0.0) alpha = 0.0;
     if (alpha > 1.0) alpha = 1.0;

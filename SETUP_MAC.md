@@ -1,4 +1,4 @@
-# 🍎 Guia de Instalação no macOS
+# Guia de Instalação no macOS
 
 ## Pré-requisitos
 
@@ -72,67 +72,6 @@ python3 scripts/plotting/plot_greedy_results.py
 python3 scripts/plotting/plot_compare_instances.py
 ```
 
-Os gráficos serão salvos no diretório `results/`, por exemplo:
-- `greedy_allocation.png`
-- `greedy_metrics.png`
-- `greedy_classroom_occupancy.png`
-- `greedy_daily_occupancy.png`
-- `greedy_waste_distribution.png`
-- `greedy_schedule_heatmap.png`
-- `greedy_preferences.png` (se houver preferências)
-
-## Troubleshooting
-
-### ❌ Erro: "command not found: python3"
-```bash
-# Reinstalar Python
-brew reinstall python3
-
-# Ou criar alias para python
-echo "alias python=python3" >> ~/.zshrc
-source ~/.zshrc
-```
-
-### ❌ Erro: "pip3: command not found"
-```bash
-# Reinstalar pip
-python3 -m ensurepip --upgrade
-```
-
-### ❌ Erro: "ImportError: No module named matplotlib"
-```bash
-# Reinstalar as dependências com force
-pip3 install --upgrade --force-reinstall matplotlib seaborn pandas
-```
-
-### ❌ Erro ao compilar C++: "nlohmann/json.hpp: No such file"
-```bash
-# Certifique-se que o arquivo existe
-ls -la src/include/nlohmann/json.hpp
-
-# Se não existir, download do arquivo single-header
-curl -o src/include/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.11.2/json.hpp
-```
-
-## Dicas para macOS
-
-- Se usar **M1/M2 (Apple Silicon)**, pode ser necessário instalar versões de arquitetura nativa:
-  ```bash
-  arch -arm64 brew install python3
-  ```
-
-- Se tiver problemas com permissões, use `sudo`:
-  ```bash
-  sudo pip3 install -r plot_requirements.txt
-  ```
-
-- Para usar um ambiente virtual (melhor prática):
-  ```bash
-  python3 -m venv venv
-  source venv/bin/activate
-  pip install -r plot_requirements.txt
-  ```
-
 ## ✅ Checklist de Instalação
 
 - [ ] Homebrew instalado (`brew --version`)
@@ -145,4 +84,3 @@ curl -o src/include/nlohmann/json.hpp https://github.com/nlohmann/json/releases/
 - [ ] Arquivo `greedy_stats.csv` gerado após executar `./bin/app`
 - [ ] Gráficos PNG gerados após executar `python3 plot_greedy_results.py`
 
-Pronto! 🚀 Você está configurado para executar o projeto.
