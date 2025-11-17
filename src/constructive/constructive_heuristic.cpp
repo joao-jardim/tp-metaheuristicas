@@ -55,6 +55,8 @@ void greedyConstruct(Problem& p) {
 	int totalDemand = 0;
 	int demandPlaced = 0;
 	int wasteTotal = 0;
+	int underUtilizedWaste = 0;  // vagas ociosas em salas com <50% ocupação
+	int standingStudents = 0;    // alunos em pé (demanda > capacidade)
 	std::map<std::string, int> prefSatisfied;     // categoria -> quantidade satisfeitas
 	std::map<std::string, int> prefViolated;      // categoria -> quantidade violadas
 	std::map<std::string, int> prefCategoryCount; // categoria -> total de preferências
@@ -89,7 +91,7 @@ void greedyConstruct(Problem& p) {
 			for (const auto& c : p.classrooms) {
 				if (!classroom_free(c.id, m.dayOfWeek, sched)) continue;
 				if (m.isPractical && !c.isLab) continue;
-				if (c.capacity < m.demand) continue;
+				if (c.capacity < m.demand) continue;  // Sala não cabe: não é candidata
 				int waste = c.capacity - m.demand;
 				
 				// calcula penalidade e número de preferências violadas
@@ -137,6 +139,11 @@ void greedyConstruct(Problem& p) {
 				int realWaste = bestWaste % 10000; // remove penalidades para calcular desperdício real
 				wasteTotal += realWaste;
 				wasteValues.push_back(realWaste);
+				
+				// Verificar alunos em pé APENAS após alocação: se demanda > capacidade
+				if (chosenClassroom && m.demand > chosenClassroom->capacity) {
+					standingStudents += (m.demand - chosenClassroom->capacity);
+				}
 				
 				// Dados por sala
 				classroomOccupancy[bestClassroom]++;
@@ -187,6 +194,16 @@ void greedyConstruct(Problem& p) {
 	double demandRate = totalDemand > 0 ? (100.0 * demandPlaced / totalDemand) : 0.0;
 	double avgWaste = placed > 0 ? (double)wasteTotal / placed : 0.0;
 
+	// Calcular vagas ociosas em salas com ocupação < 50%
+	for (const auto& [cid, dem] : classroomDemand) {
+		int cap = classroomCapacity[cid];
+		if (cap > 0 && dem < cap / 2.0) {
+			underUtilizedWaste += (cap - dem);
+		}
+	}
+	
+	int unallocatedStudents = totalDemand - demandPlaced;
+
 	std::cout << std::fixed << std::setprecision(2);
 	std::cout << "ALOCAÇÃO GERAL:\n";
 	std::cout << "  Encontros alocados:    " << placed << " / " << total 
@@ -195,6 +212,11 @@ void greedyConstruct(Problem& p) {
 	std::cout << "  Demanda alocada:        " << demandPlaced << " / " << totalDemand 
 	          << " alunos (" << demandRate << "%)\n";
 	std::cout << "  Desperdício médio:      " << avgWaste << " vagas/encontro\n";
+
+	std::cout << "\nMÉTRICAS DE REFERÊNCIA:\n";
+	std::cout << "  Alunos desalocados:                      " << unallocatedStudents << "\n";
+	std::cout << "  Vagas ociosas (<50% ocupação):           " << underUtilizedWaste << "\n";
+	std::cout << "  Alunos em pé (demanda > capacidade):     " << standingStudents << "\n";
 
 	if (!prefCategoryCount.empty()) {
 		std::cout << "\nPREFERÊNCIAS:\n";
@@ -222,6 +244,9 @@ void greedyConstruct(Problem& p) {
 		csv << "Demanda Total," << totalDemand << "\n";
 		csv << "Taxa Demanda (%)," << demandRate << "\n";
 		csv << "Desperdicio Medio," << avgWaste << "\n";
+		csv << "Alunos Desalocados," << unallocatedStudents << "\n";
+		csv << "Vagas Ociosas SubUtilizadas," << underUtilizedWaste << "\n";
+		csv << "Alunos em Pe," << standingStudents << "\n";
 		
 		csv << "\nPreferencias por Categoria\n";
 		csv << "Categoria,Total,Satisfeitas,Taxa (%)\n";

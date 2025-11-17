@@ -45,6 +45,11 @@ int main(int argc, char** argv) {
         } else {
             // primeiro posicional não-flag -> instancePath
             instancePath = a;
+            // se começar com "data/generated_instances/", remover o prefixo (será re-adicionado em loadInstance)
+            const std::string prefix = "data/generated_instances/";
+            if (instancePath.rfind(prefix, 0) == 0) {
+                instancePath = instancePath.substr(prefix.size());
+            }
         }
     }
 

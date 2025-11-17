@@ -45,6 +45,8 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
     int totalDemand = 0;
     int demandPlaced = 0;
     int wasteTotal = 0;
+    int underUtilizedWaste = 0;  // vagas ociosas em salas com <50% ocupação
+    int standingStudents = 0;    // alunos em pé (demanda > capacidade)
     std::map<std::string, int> prefSatisfied;
     std::map<std::string, int> prefViolated;
     std::map<std::string, int> prefCategoryCount;
@@ -83,7 +85,7 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
             for (const auto& c : p.classrooms) {
                 if (!classroom_free(c.id, m.dayOfWeek, sched)) continue;
                 if (m.isPractical && !c.isLab) continue;
-                if (c.capacity < m.demand) continue;
+                if (c.capacity < m.demand) continue;  // Sala não cabe: não é candidata
                 int waste = c.capacity - m.demand;
 
                 int prefPenalty = 0;
@@ -148,6 +150,11 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
             wasteTotal += realWaste;
             wasteValues.push_back(realWaste);
 
+            // Verificar alunos em pé APENAS após alocação: se demanda > capacidade
+            if (chosenClassroom && m.demand > chosenClassroom->capacity) {
+                standingStudents += (m.demand - chosenClassroom->capacity);
+            }
+
             classroomOccupancy[chosenId]++;
             classroomDemand[chosenId] += m.demand;
             if (chosenClassroom) classroomCapacity[chosenId] = chosenClassroom->capacity;
@@ -174,6 +181,49 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
     double placementRate = total > 0 ? (100.0 * placed / total) : 0.0;
     double demandRate = totalDemand > 0 ? (100.0 * demandPlaced / totalDemand) : 0.0;
     double avgWaste = placed > 0 ? (double)wasteTotal / placed : 0.0;
+    
+    // Calcular vagas ociosas em salas com ocupação < 50%
+    for (const auto& [cid, dem] : classroomDemand) {
+        int cap = classroomCapacity[cid];
+        if (cap > 0 && dem < cap / 2.0) {
+            underUtilizedWaste += (cap - dem);
+        }
+    }
+    
+    int unallocatedStudents = totalDemand - demandPlaced;
+
+    std::cout << "\n";
+    std::cout << "  Parâmetros: alpha = " << std::fixed << std::setprecision(2) << alpha 
+              << ", seed = " << seed << "\n\n";
+
+    std::cout << std::fixed << std::setprecision(2);
+    std::cout << "ALOCAÇÃO GERAL:\n";
+    std::cout << "  Encontros alocados:    " << placed << " / " << total 
+              << " (" << placementRate << "%)\n";
+    std::cout << "  Encontros não alocados: " << notPlaced << "\n";
+    std::cout << "  Demanda alocada:        " << demandPlaced << " / " << totalDemand 
+              << " alunos (" << demandRate << "%)\n";
+    std::cout << "  Desperdício médio:      " << avgWaste << " vagas/encontro\n";
+
+    std::cout << "\nMÉTRICAS DE REFERÊNCIA:\n";
+    std::cout << "  Alunos desalocados:                      " << unallocatedStudents << "\n";
+    std::cout << "  Vagas ociosas (<50% ocupação):           " << underUtilizedWaste << "\n";
+    std::cout << "  Alunos em pé (demanda > capacidade):     " << standingStudents << "\n";
+
+    if (!prefCategoryCount.empty()) {
+        std::cout << "\nPREFERÊNCIAS:\n";
+        for (const auto &[cat, count] : prefCategoryCount) {
+            int sat = prefSatisfied[cat];
+            int viol = prefViolated[cat];
+            double satRate = count > 0 ? (100.0 * sat / count) : 0.0;
+            std::cout << "  " << cat << ":\n";
+            std::cout << "    Total:       " << count << "\n";
+            std::cout << "    Satisfeitas: " << sat << " (" << satRate << "%)\n";
+            std::cout << "    Violadas:    " << viol << "\n";
+        }
+    }
+
+    std::cout << "\n========================================\n\n";
 
     std::ofstream csv("greedy_stats.csv");
     if (csv.is_open()) {
@@ -185,6 +235,9 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
         csv << "Demanda Total," << totalDemand << "\n";
         csv << "Taxa Demanda (%)," << demandRate << "\n";
         csv << "Desperdicio Medio," << avgWaste << "\n";
+        csv << "Alunos Desalocados," << unallocatedStudents << "\n";
+        csv << "Vagas Ociosas SubUtilizadas," << underUtilizedWaste << "\n";
+        csv << "Alunos em Pe," << standingStudents << "\n";
 
         csv << "\nPreferencias por Categoria\n";
         csv << "Categoria,Total,Satisfeitas,Taxa (%)\n";
@@ -222,5 +275,4 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
 
         csv.close();
     }
-
-    }
+}

@@ -104,6 +104,7 @@ for inst in instances:
 
             # Ler métricas básicas do CSV (mesma lógica que antes)
             allocated = total = alloc_rate = demand_alloc = demand_total = demand_rate = avg_waste = ''
+            unalloced_students = under_util_waste = standing_students = ''
             pref_total = 0
             pref_satisfied = 0
             with open(dest, 'r') as f:
@@ -138,6 +139,12 @@ for inst in instances:
                         demand_rate = val
                     elif key == 'Desperdicio Medio':
                         avg_waste = val
+                    elif key == 'Alunos Desalocados':
+                        unalloced_students = val
+                    elif key == 'Vagas Ociosas SubUtilizadas':
+                        under_util_waste = val
+                    elif key == 'Alunos em Pe':
+                        standing_students = val
 
                 elif section == 'prefs' and len(row) >= 4:
                     try:
@@ -160,6 +167,9 @@ for inst in instances:
                 'Demanda Total': demand_total,
                 'Taxa Demanda (%)': demand_rate,
                 'Desperdicio Medio': avg_waste,
+                'Alunos Desalocados': unalloced_students,
+                'Vagas Ociosas SubUtilizadas': under_util_waste,
+                'Alunos em Pe': standing_students,
                 'Runtime(s)': f"{duration:.4f}",
                 'MaxRSS(kB)': max_rss_kb,
                 'PrefTotal': pref_total,
@@ -171,7 +181,7 @@ for inst in instances:
 # Escrever summary CSV em data/results/
 summary_file = CSV_DIR / 'summary_instances.csv'
 with open(summary_file, 'w', newline='') as f:
-    fieldnames=['instance','heuristic','alpha','seed','Encontros Alocados','Encontros Total','Taxa Alocacao (%)','Demanda Alocada','Demanda Total','Taxa Demanda (%)','Desperdicio Medio','Runtime(s)','MaxRSS(kB)','PrefTotal','PrefSatisfeitas','PrefSat(%)']
+    fieldnames=['instance','heuristic','alpha','seed','Encontros Alocados','Encontros Total','Taxa Alocacao (%)','Demanda Alocada','Demanda Total','Taxa Demanda (%)','Desperdicio Medio','Alunos Desalocados','Vagas Ociosas SubUtilizadas','Alunos em Pe','Runtime(s)','MaxRSS(kB)','PrefTotal','PrefSatisfeitas','PrefSat(%)']
     writer = csv.DictWriter(f, fieldnames=fieldnames)
     writer.writeheader()
     for row in summary_rows:
