@@ -5,10 +5,13 @@
 #include <climits>
 #include <string>
 #include <iomanip>
+#include <chrono>
 #include <map>
 #include <fstream>
 
 void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
+    using clock = std::chrono::high_resolution_clock;
+    auto t0 = clock::now();
     if (alpha < 0.0) alpha = 0.0;
     if (alpha > 1.0) alpha = 1.0;
 
@@ -50,6 +53,11 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
     std::map<std::string, int> prefSatisfied;
     std::map<std::string, int> prefViolated;
     std::map<std::string, int> prefCategoryCount;
+
+    // Estatísticas para verificar comportamento da RCL (aleatoriedade)
+    int rcl_total = 0;          // número de vezes que uma RCL foi construída
+    long long rcl_size_sum = 0; // soma dos tamanhos de RCL (para média)
+    int rcl_multi_count = 0;    // quantas RCLs tinham tamanho > 1 (onde houve escolha aleatória)
 
     std::map<int, int> classroomOccupancy;
     std::map<int, int> classroomDemand;
@@ -121,6 +129,11 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
 
             std::vector<Cand> rcl;
             for (const auto &cc : cands) if (cc.score <= threshold) rcl.push_back(cc);
+
+            // coletar estatísticas da RCL
+            ++rcl_total;
+            rcl_size_sum += static_cast<long long>(rcl.size());
+            if (rcl.size() > 1) ++rcl_multi_count;
 
             if (rcl.empty()) {
                 Cand best = cands[0];
@@ -238,6 +251,10 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
         csv << "Alunos Desalocados," << unallocatedStudents << "\n";
         csv << "Vagas Ociosas SubUtilizadas," << underUtilizedWaste << "\n";
         csv << "Alunos em Pe," << standingStudents << "\n";
+        double rcl_avg_size = rcl_total > 0 ? (double)rcl_size_sum / rcl_total : 0.0;
+        csv << "RCL_Total," << rcl_total << "\n";
+        csv << "RCL_AvgSize," << rcl_avg_size << "\n";
+        csv << "RCL_MultiCount," << rcl_multi_count << "\n";
 
         csv << "\nPreferencias por Categoria\n";
         csv << "Categoria,Total,Satisfeitas,Taxa (%)\n";
@@ -273,6 +290,12 @@ void partiallyGreedyConstruct(Problem& p, double alpha, unsigned int seed) {
             csv << key << "," << totalDemandSched << "\n";
         }
 
+        // compute elapsed time and export
+        auto t1 = clock::now();
+        auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count();
+        csv << "ExecutionTimeMs," << elapsed << "\n";
         csv.close();
+
+        std::cout << "Tempo de execucao (ms): " << elapsed << "\n";
     }
 }

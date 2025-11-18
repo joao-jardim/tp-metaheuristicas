@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Script para visualizar estatísticas da heurística gulosa com Matplotlib.
 Lê o arquivo greedy_stats.csv gerado por constructive_heuristic.cpp
@@ -467,7 +466,7 @@ def plot_schedule_heatmap(sections, results_dir):
 
 
 def main():
-    print("\n📊 Gerando gráficos detalhados das estatísticas da heurística gulosa...\n")
+    print("\nGerando gráficos detalhados das estatísticas da heurística gulosa...\n")
     ROOT = Path(__file__).resolve().parent.parent
     RESULTS_DIR = ROOT / 'results'
     RESULTS_DIR.mkdir(exist_ok=True)
@@ -485,7 +484,7 @@ def main():
         if not df_prefs.empty:
             plot_preferences(df_prefs, RESULTS_DIR)
         
-        print("\n✨ Todos os gráficos foram gerados com sucesso!\n")
+        print("\n Todos os gráficos foram gerados com sucesso!\n")
     except Exception as e:
         import traceback
         print(f"Erro ao gerar gráficos: {e}")
