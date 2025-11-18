@@ -1,0 +1,44 @@
+# Ignore build artifacts and editor files
+# Binaries and build folders
+/bin/
+/build/
+*.o
+*.obj
+*.so
+*.a
+*.dll
+*.exe
+*.out
+
+# Compiled resource files
+*.d
+
+# Makefile interactive temporary files
+.make*
+
+# Python virtualenv and cache
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Results and temporary outputs
+results/tmp/
+greedy_stats.csv
+results/*.json
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Other
+*.bak
+*.tmp
